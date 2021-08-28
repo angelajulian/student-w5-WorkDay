@@ -1,15 +1,15 @@
 let saved = {};
 
 let hours = [
-  "9 am",
-  "10 am",
-  "11 am",
-  "12 am",
-  "1 pm",
-  "2 pm",
-  "3 pm",
-  "4 pm",
-  "5 pm",
+  "9 AM",
+  "10 AM",
+  "11 AM",
+  "12 AM",
+  "1 PM",
+  "2 PM",
+  "3 PM",
+  "4 PM",
+  "5 PM",
 ];
 
 let now = moment().format("h A");
@@ -40,7 +40,10 @@ const createHourlyTask = function (whatTime, hour) {
 
   let desDiv = $("<div>").addClass(whatTime).addClass("col-9");
   let description = $(`<textarea name='hour${hour}'>`).addClass("description");
-  if (saved[`hour${hour}`]) desDiv.append(description);
+  if (saved[`hour${hour}`]) {
+    description.text = saved[`hour${hour}`];
+  }
+  desDiv.append(description);
 
   let btnDiv = $("<div>").addClass("col");
   let saveBtn = $("<button>").addClass("saveBtn btn-primary");
@@ -56,10 +59,10 @@ const createHours = function () {
   for (i = 0; i < hours.length; i++) {
     if (hours.indexOf(now) === i) {
       createHourlyTask("present", hours[i]);
-    } else if (hours.indexOf(now) < i && hours.indexOf(now) > 0) {
+    } else if (hours.indexOf(now) < i) {
       console.log(hours.indexOf(now));
       createHourlyTask("future", hours[i]);
-    } else {
+    } else if (hours.indexOf(now) > i) {
       createHourlyTask("past", hours[i]);
     }
   }
@@ -75,10 +78,11 @@ const loadHours = function () {
 };
 
 $("button").click(function () {
-  $("p, select, textarea").each(function () {
-    let value = $(this).val();
-    let name = $(this).attr("name");
-    saved.push({ name: value });
+  $("textarea, select, textarea").each(function (event) {
+    let value = $(this).val(),
+      name = $(this).attr("name");
+    localStorage[name] = value;
+    console.log(localStorage);
     // console.log("worked!");
   });
 });
