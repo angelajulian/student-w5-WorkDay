@@ -1,6 +1,6 @@
 # Work Day Scheduler
 
-Scheduling a whole week can be too taxing. Scheduling a day is a great place to start when organizing your time.
+Scheduling a whole week can be too taxing. Scheduling a day is a great place to start when organizing your time. [Click here to see it live.](https://angelajulian.github.io/student-w5-WorkDay/)
 
 ## How to Use
 
