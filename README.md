@@ -5,7 +5,7 @@ Scheduling a whole week can be too taxing. Scheduling a day is a great place to 
 ## How to Use
 
 Work day shows an 8 hour day, split into hour segments. Click a block to enter an appointment, task or chore! Click the save button to save the task. You can leave and come back, and so long as you don't clear your cache, you task will be visible.
-[!image](./workday_screenshot.png)
+![image](./workday_screenshot.png)
 
 ### Room for improvement
 
