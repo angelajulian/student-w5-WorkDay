@@ -1,5 +1,3 @@
-let saved = {};
-
 let hours = [
   "9 AM",
   "10 AM",
@@ -31,58 +29,50 @@ $(".time-block").each(function (i) {
   console.log(hours.indexOf(now));
 });
 
-const createHourlyTask = function (whatTime, hour) {
-  let hourlySpan = $(`<span id=${hour}>`)
-    .addClass("row")
-    .addClass("time-block");
+const createHourlyTask = function (whatTime, hour, id) {
+  let timeBlockDiv = $(`<div id=${id}>`).addClass("row time-block");
 
-  let hourEl = $("<div>").addClass("hour").addClass("col").text(hour);
+  let hourEl = $("<div>").addClass("hour col-md-1").text(hour);
 
-  let desDiv = $("<div>").addClass(whatTime).addClass("col-9");
-  let description = $(`<textarea name='hour${hour}'>`).addClass("description");
-  if (saved[`hour${hour}`]) {
-    description.text = saved[`hour${hour}`];
+  let textareaEl = $("<textarea>").addClass(
+    `col-md-10 description ${whatTime}`
+  );
+
+  if (localStorage.getItem(id)) {
+    textareaEl.text(localStorage.getItem(id));
   }
-  desDiv.append(description);
 
-  let btnDiv = $("<div>").addClass("col");
-  let saveBtn = $("<button>").addClass("saveBtn btn-primary");
-  btnDiv.append(saveBtn);
+  let saveBtn = $("<button>").addClass("btn saveBtn col-md-1");
 
-  hourlySpan.append(hourEl).append(desDiv).append(btnDiv);
+  let iEl = $("<i>").addClass("fas fa-save");
 
-  $("div.container").append(hourlySpan);
+  timeBlockDiv.append(hourEl).append(textareaEl).append(saveBtn);
+
+  saveBtn.append(iEl);
+
+  $("div.container").append(timeBlockDiv);
 };
 
 //create the hour function
 const createHours = function () {
   for (i = 0; i < hours.length; i++) {
+    let modId = hours[i].split(" ");
     if (hours.indexOf(now) === i) {
-      createHourlyTask("present", hours[i]);
+      createHourlyTask("present", hours[i], modId[0]);
     } else if (hours.indexOf(now) < i) {
       console.log(hours.indexOf(now));
-      createHourlyTask("future", hours[i]);
+      createHourlyTask("future", hours[i], modId[0]);
     } else if (hours.indexOf(now) > i) {
-      createHourlyTask("past", hours[i]);
+      createHourlyTask("past", hours[i], modId[0]);
     }
   }
 };
 
 createHours();
 
-const loadHours = function () {
-  hours = JSON.parse(localStorage.getItem("hours"));
-  $.each(hours, function (obj) {
-    console.log(obj);
-  });
-};
-
 $("button").click(function () {
-  $("textarea, select, textarea").each(function (event) {
-    let value = $(this).val(),
-      name = $(this).attr("name");
-    localStorage[name] = value;
-    console.log(localStorage);
-    // console.log("worked!");
-  });
+  let value = $(this).siblings("textarea").val();
+  let id = $(this).parent().attr("id");
+  console.log(id);
+  localStorage.setItem(id, value);
 });
